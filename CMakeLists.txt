@@ -25,7 +25,8 @@ add_library(GLAD "extrenal/src/gl.c")
 set(LIBS ${LIBS} GLAD)
 
 set(CHAPTERS
-    hellowindows
+HelloWindow
+HelloTriangle
 )
 
 
@@ -34,11 +35,11 @@ function(create_project_from_sources chapter)
             "learn/${chapter}/*.h"
             "learn/${chapter}/*.cpp"
     )
-  #  message( ${SOURCE}, ${chapter})
+   message( ${SOURCE}, ${chapter})
 	set(NAME ${chapter})
     add_executable(${NAME} ${SOURCE})
     target_link_libraries(${NAME} ${LIBS})
-    set_target_properties(${NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/${chapter}")
+    set_target_properties(${NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/bin/${chapter}")
 endfunction()
 foreach(CHAPTER ${CHAPTERS})
     create_project_from_sources(${CHAPTER} )

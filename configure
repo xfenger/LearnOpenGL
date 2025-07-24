@@ -1,3 +1,5 @@
-mkdir -p build && cd build && make clean
+
+rm build -rf
+mkdir -p build && cd build 
 cd ..
 cmake -S . -B build
