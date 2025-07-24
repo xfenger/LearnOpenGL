@@ -19,14 +19,19 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
 set(LIBS ${GLFW_LIBRARIES} X11 Xrandr Xinerama Xi Xxf86vm Xcursor GL dl pthread freetype)
 set (CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_CXX_LINK_EXECUTABLE} -ldl")
 
+include_directories(${CMAKE_SOURCE_DIR}/extrenal/include)
+
 message(${GLFW_LIBRARIES})
 
+add_subdirectory(sharders)
+
 add_library(GLAD "extrenal/src/gl.c")
-set(LIBS ${LIBS} GLAD)
+set(LIBS ${LIBS} GLAD SHARDER)
 
 set(CHAPTERS
 HelloWindow
 HelloTriangle
+Shaders
 )
 
 
@@ -45,4 +50,3 @@ foreach(CHAPTER ${CHAPTERS})
     create_project_from_sources(${CHAPTER} )
 endforeach(CHAPTER)
 
-include_directories(${CMAKE_SOURCE_DIR}/extrenal/include)
