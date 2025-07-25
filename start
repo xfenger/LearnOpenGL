@@ -1,0 +1,33 @@
+#!/bin/bash
+cd build/bin
+# 查找可执行文件并存储为数组
+mapfile -t files < <(find . -type f -perm /+x 2>/dev/null | sort)
+
+# 检查是否找到文件
+if [ ${#files[@]} -eq 0 ]; then
+    echo "错误：未找到可执行文件！"
+    exit 1
+fi
+
+COLUMNS=1
+# 用户选择
+PS3="请选择要执行的文件（输入数字）："
+select file in "${files[@]}" "退出"; do
+    case $file in
+        "退出")
+            exit 0
+            ;;
+        *)
+            if [ -n "$file" ]; then
+                dir=$(dirname "$file")   
+                bin=$(basename "$file") 
+                cd $dir
+                echo "执行: $bin"
+                ./$bin  # 运行选中的文件
+                break
+            else
+                echo "无效输入！"
+            fi
+            ;;
+    esac
+done

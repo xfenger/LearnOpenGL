@@ -45,6 +45,27 @@ set(CHAPTERS
 1.GettingStarted
 )
 
+function(copy_shader_from_sourcess chapter demo)
+    file(GLOB SHADERS
+            "learn/${chapter}/${demo}/*.vs"
+            "learn/${chapter}/${demo}/*.fs"
+        )
+
+    foreach(SHADER ${SHADERS})
+        get_filename_component(FILE_NAME  ${SHADER} NAME)
+        set(SRC_FILE "${SHADER}")
+        set(DST_FILE "${CMAKE_SOURCE_DIR}/build/bin/${chapter}/${demo}/${FILE_NAME}")
+        message("copy_shader_from_sourcess " ${SRC_FILE} " " ${DST_FILE})
+        add_custom_command(
+        OUTPUT ${DST_FILE}  
+        DEPENDS ${SRC_FILE}
+        COMMAND ${CMAKE_COMMAND} -E copy ${SRC_FILE} ${DST_FILE}
+        COMMENT "Copying ${SRC_FILE} to ${DST_FILE}"
+        )
+
+        add_custom_target(CopyFile_${FILE_NAME} ALL DEPENDS ${DST_FILE})
+    endforeach(SHADER)
+endfunction(copy_shader_from_sourcess)
 
 function(create_project_from_sources chapter demo)
 	file(GLOB SOURCE
@@ -54,17 +75,6 @@ function(create_project_from_sources chapter demo)
             "learn/${chapter}/${demo}/*.fs"
     )
 
-
-    file(GLOB SHADERS
-        "learn/${chapter}/${demo}/*.vs"
-         "learn/${chapter}/${demo}/*.fs"
-    )
-
-    foreach(SHADER ${SHADERS})
-        #复制文件
-        file(COPY ${SHADER} DESTINATION ${CMAKE_SOURCE_DIR}/build/bin/${chapter}/${demo}/)
-    endforeach(SHADER)
- 
 	set(NAME ${demo})
     message( ${chapter}, ${NAME})
     add_executable(${NAME} ${SOURCE})
@@ -74,6 +84,7 @@ endfunction()
 foreach(CHAPTER ${CHAPTERS})
     foreach(DEMO ${${CHAPTER}})
         create_project_from_sources(${CHAPTER} ${DEMO})
+        copy_shader_from_sourcess(${CHAPTER} ${DEMO})
     endforeach(DEMO)
 endforeach(CHAPTER)
 
