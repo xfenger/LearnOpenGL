@@ -35,17 +35,26 @@ add_subdirectory(shaders)
 add_library(GLAD "extrenal/src/gl.c")
 set(LIBS ${LIBS} GLAD SHARDER)
 
-set(1.GettingStarted
-    1.HelloWindow
-    2.HelloTriangle
-    3.1Shaders
-    3.2ShadersClass
-    4.1Textures
-)
+set(CHAPTERS "")
 
-set(CHAPTERS
-1.GettingStarted
-)
+file(GLOB children RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/learn" "${CMAKE_CURRENT_SOURCE_DIR}/learn/*")
+
+foreach(child IN LISTS children)
+    if(IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/learn/${child}")
+        list(APPEND CHAPTERS ${child})
+    endif()
+endforeach()
+
+foreach(CHAPTER ${CHAPTERS})
+    file(GLOB children RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/learn/${CHAPTER}" "${CMAKE_CURRENT_SOURCE_DIR}/learn/${CHAPTER}/*")
+    set(${CHAPTER} "")
+    foreach(child IN LISTS children)
+    if(IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/learn/${CHAPTER}/${child}")
+        list(APPEND ${CHAPTER} ${child})
+    endif()
+    endforeach()
+endforeach(CHAPTER)
+
 
 function(copy_shader_from_sourcess chapter demo)
     file(GLOB SHADERS
