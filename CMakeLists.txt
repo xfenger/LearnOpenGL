@@ -5,7 +5,7 @@ project(LearOpenGL)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(LearnOpenGL)
@@ -24,6 +24,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
 
 set(LIBS ${GLFW_LIBRARIES} X11 Xrandr Xinerama Xi Xxf86vm Xcursor GL dl pthread freetype)
 set (CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_CXX_LINK_EXECUTABLE} -ldl")
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 include_directories(${CMAKE_SOURCE_DIR}/extrenal/include)
 
@@ -39,6 +40,7 @@ set(1.GettingStarted
     2.HelloTriangle
     3.1Shaders
     3.2ShadersClass
+    4.1Textures
 )
 
 set(CHAPTERS
@@ -78,7 +80,8 @@ function(create_project_from_sources chapter demo)
 	set(NAME ${demo})
     message( ${chapter}, ${NAME})
     add_executable(${NAME} ${SOURCE})
-    target_link_libraries(${NAME} ${LIBS})
+    target_link_libraries(${NAME} PRIVATE ${LIBS})
+
     set_target_properties(${NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/bin/${chapter}/${demo}/")
 endfunction()
 foreach(CHAPTER ${CHAPTERS})
