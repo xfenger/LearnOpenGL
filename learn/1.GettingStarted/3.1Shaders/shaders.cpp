@@ -2,7 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <cmath>
-#include "sharder.h"
+#include "shader.h"
 
 void processInput(GLFWwindow *window)
 {

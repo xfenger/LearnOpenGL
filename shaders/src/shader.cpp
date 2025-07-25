@@ -1,4 +1,4 @@
-#include "sharder.h"
+#include "shader.h"
 // 构造器读取并构建着色器
 Shader::Shader(const char* vertexPath, const char* fragmentPath)
 {
