@@ -30,10 +30,14 @@ include_directories(${CMAKE_SOURCE_DIR}/extrenal/include)
 
 message(${GLFW_LIBRARIES})
 
+
+option(GLM_STATIC_LIBRARY_ENABLE "GLM static library" ON)
+add_subdirectory(extrenal/glm)
+
 add_subdirectory(shaders)
 
 add_library(GLAD "extrenal/src/gl.c")
-set(LIBS ${LIBS} GLAD SHARDER)
+set(LIBS ${LIBS} GLAD SHARDER glm_static)
 
 set(CHAPTERS "")
 
@@ -74,7 +78,7 @@ function(copy_shader_from_sourcess chapter demo)
         COMMENT "Copying ${SRC_FILE} to ${DST_FILE}"
         )
 
-        add_custom_target(CopyFile_${FILE_NAME} ALL DEPENDS ${DST_FILE})
+        add_custom_target(CopyFile_${demo}_${FILE_NAME} ALL DEPENDS ${DST_FILE})
     endforeach(SHADER)
 endfunction(copy_shader_from_sourcess)
 
