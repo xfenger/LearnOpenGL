@@ -152,14 +152,6 @@ int main()
     glUniform1i(glGetUniformLocation(ourShader.ID, "texture_container"), 0);
     ourShader.setInt("texture_face", 1);
 
-    
-    glm::mat4 trans = glm::mat4(1.0f);
-    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
-    trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
-
-    unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-
 
     // 渲染循环
     while(!glfwWindowShouldClose(window))
@@ -178,7 +170,14 @@ int main()
 
         // glBindTexture(GL_TEXTURE_2D, texture);
 
+        
+        glm::mat4 trans = glm::mat4(1.0f);
+        trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+        trans = glm::rotate(trans,(float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
+
         ourShader.use();
+        unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
        
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
