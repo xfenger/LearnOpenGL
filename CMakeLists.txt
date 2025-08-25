@@ -27,6 +27,7 @@ set (CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_CXX_LINK_EXECUTABLE} -ldl")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 include_directories(${CMAKE_SOURCE_DIR}/extrenal/include)
+include_directories(${CMAKE_SOURCE_DIR}/extrenal/)
 
 message(${GLFW_LIBRARIES})
 
